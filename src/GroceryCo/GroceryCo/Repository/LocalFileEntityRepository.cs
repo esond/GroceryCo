@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using GroceryCo.Kiosk.Model;
+using GroceryCo.Model;
 
-namespace GroceryCo.Kiosk.Repository
+namespace GroceryCo.Repository
 {
     public class LocalFileEntityRepository : IRepository
     {
@@ -32,8 +32,6 @@ namespace GroceryCo.Kiosk.Repository
 
         public void Update<TEntity>(Guid id) where TEntity : Entity
         {
-
-
             throw new NotImplementedException();
         }
 

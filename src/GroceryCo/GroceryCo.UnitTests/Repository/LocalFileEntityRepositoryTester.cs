@@ -1,10 +1,10 @@
 ﻿using System;
 using System.IO;
-using GroceryCo.Kiosk.Model;
-using GroceryCo.Kiosk.Repository;
+using GroceryCo.Model;
+using GroceryCo.Repository;
 using NUnit.Framework;
 
-namespace GroceryCo.Kiosk.UnitTests.Repository
+namespace GroceryCo.UnitTests.Repository
 {
     [TestFixture]
     public class LocalFileEntityRepositoryTester
@@ -29,7 +29,7 @@ namespace GroceryCo.Kiosk.UnitTests.Repository
         {
             _repository = new LocalFileEntityRepository();
 
-            Assert.Throws<ArgumentException>(() => _repository.Create((GroceryItem) null));
+            Assert.Throws<ArgumentException>(() => _repository.Create((GroceryItem)null));
         }
     }
 }

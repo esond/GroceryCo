@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace GroceryCo.Kiosk.Model
+namespace GroceryCo.Model
 {
     public abstract class Entity
     {

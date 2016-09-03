@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using GroceryCo.Kiosk.Model;
+using GroceryCo.Model;
 
-namespace GroceryCo.Kiosk.Repository
+namespace GroceryCo.Repository
 {
     public interface IRepository
     {

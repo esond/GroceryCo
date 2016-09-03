@@ -1,4 +1,4 @@
-﻿namespace GroceryCo.Kiosk.Model
+﻿namespace GroceryCo.Model
 {
     public class GroceryItem : Entity
     {
