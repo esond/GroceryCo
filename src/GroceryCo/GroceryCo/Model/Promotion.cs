@@ -2,7 +2,7 @@
 
 namespace GroceryCo.Kiosk.Model
 {
-    public class Promotion
+    public class Promotion : Entity
     {
         public Promotion(DiscountType discountType, GroceryItem groceryItem)
         {

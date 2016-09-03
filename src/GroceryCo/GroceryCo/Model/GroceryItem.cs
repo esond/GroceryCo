@@ -1,6 +1,6 @@
 ﻿namespace GroceryCo.Kiosk.Model
 {
-    public class GroceryItem
+    public class GroceryItem : Entity
     {
         public GroceryItem(string name, decimal price)
         {
