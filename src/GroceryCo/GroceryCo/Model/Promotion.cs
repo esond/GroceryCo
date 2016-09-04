@@ -15,10 +15,5 @@ namespace GroceryCo.Model
         public int RequiredItems { get; set; }
     }
 
-    public enum DiscountType
-    {
-        OnSale = 1,
-        Group = 2,
-        AdditionalProduct = 3
-    }
+    
 }
