@@ -68,7 +68,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Model\DiscountType.cs" />
     <Compile Include="Model\Entity.cs" />
     <Compile Include="Model\GroceryItem.cs" />
     <Compile Include="Model\Promotion.cs" />
