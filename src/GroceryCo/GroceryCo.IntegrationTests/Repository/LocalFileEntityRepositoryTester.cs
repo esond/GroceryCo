@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Linq;
-using GroceryCo.Exceptions;
 using GroceryCo.Model;
 using GroceryCo.Repository;
 using Newtonsoft.Json;
@@ -32,6 +31,15 @@ namespace GroceryCo.IntegrationTests.Repository
         }
 
         [Test]
+        public void attemtpting_to_add_duplicate_entity_throws_InvalidOperationException()
+        {
+            GroceryItem item = new GroceryItem("Cheese", 6.66m);
+            _repository.Create(item);
+
+            Assert.Throws<InvalidOperationException>(() => _repository.Create(item));
+        }
+
+        [Test]
         public void creating_an_entity_and_retrieving_it_yields_entity_with_equal_values()
         {
             GroceryItem newItem = new GroceryItem("Apple", 2.50m);
@@ -46,17 +54,31 @@ namespace GroceryCo.IntegrationTests.Repository
         }
 
         [Test]
-        public void updating_a_nonexistent_entity_throws_EntityNotFoundException()
+        public void updating_a_nonexistent_entity_throws_InvalidOperationException()
         {
-            Assert.Throws<EntityNotFoundException>(() => _repository.Update(new GroceryItem("foo", decimal.Zero)));
+            Assert.Throws<InvalidOperationException>(() => _repository.Update(new GroceryItem("foo", decimal.Zero)));
         }
 
         [Test]
-        public void deleted_entities_cannot_be_found()
+        public void retrieving_an_updated_entity_yields_entity_with_updated_values()
+        {
+            Promotion original = new Promotion(DiscountType.OnSale);
+            _repository.Create(original);
+
+            original.DiscountType = DiscountType.AdditionalProduct;
+            _repository.Update(original);
+
+            Promotion updated = _repository.GetAll<Promotion>().Single(p => p.Id == original.Id);
+
+            Assert.AreEqual(original.DiscountType, updated.DiscountType);
+        }
+
+        [Test]
+        public void deleted_entities_are_removed_from_repository()
         {
             GroceryItem newItem = new GroceryItem("Apple", 2.50m);
             _repository.Create(newItem);
-            _repository.Delete<GroceryItem>(newItem.Id);
+            _repository.Delete(newItem);
 
             // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
             Assert.Throws<InvalidOperationException>(() => _repository.GetAll<GroceryItem>().Single(gi => gi.Id == newItem.Id));

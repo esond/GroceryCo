@@ -4,10 +4,9 @@ namespace GroceryCo.Model
 {
     public class Promotion : Entity
     {
-        public Promotion(DiscountType discountType, GroceryItem groceryItem)
+        public Promotion(DiscountType discountType)
         {
             DiscountType = discountType;
-            GroceryItem = groceryItem;
         }
 
         public DiscountType DiscountType { get; set; }
@@ -16,7 +15,7 @@ namespace GroceryCo.Model
 
         public int DaysInEffect { get; set; }
 
-        public GroceryItem GroceryItem { get; set; }
+        public Guid GroceryItemId { get; set; }
     }
 
     public enum DiscountType

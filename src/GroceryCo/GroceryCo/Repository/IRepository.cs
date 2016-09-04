@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using GroceryCo.Model;
 
 namespace GroceryCo.Repository
@@ -10,8 +9,8 @@ namespace GroceryCo.Repository
 
         IEnumerable<TEntity> GetAll<TEntity>() where TEntity : Entity;
 
-        void Update<TEntity>(TEntity entity) where TEntity : Entity;
+        void Update<TEntity>(TEntity toUpdate) where TEntity : Entity;
 
-        bool Delete<TEntity>(Guid id) where TEntity : Entity;
+        bool Delete<TEntity>(TEntity toRemove) where TEntity : Entity;
     }
 }
