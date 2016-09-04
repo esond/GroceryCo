@@ -1,0 +1,30 @@
+{
+  "Name": "Apple",
+  "Price": 2.50,
+  "Id": "48b037dc-6460-4b9e-9be9-e04268af55f3"
+}
+{
+  "Name": "Orange",
+  "Price": 2.50,
+  "Id": "2f95aab7-4e5a-4965-bde6-3cbc3ac6f37f"
+}
+{
+  "Name": "Banana",
+  "Price": 2.50,
+  "Id": "68f1cb4a-7d70-4299-af9e-6a4ebd82b234"
+}
+{
+  "Name": "Bread",
+  "Price": 2.50,
+  "Id": "00e478f3-3391-4ad4-bbe6-706318673d6c"
+}
+{
+  "Name": "Milk",
+  "Price": 5.29,
+  "Id": "797e1851-642d-4347-a585-7169e4b18cac"
+}
+{
+  "Name": "Eggs",
+  "Price": 2.50,
+  "Id": "76f91c7b-327d-4c03-893e-1d73c176ec52"
+}
