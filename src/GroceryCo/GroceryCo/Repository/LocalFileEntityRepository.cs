@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using GroceryCo.Model;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace GroceryCo.Repository
 {
@@ -8,13 +11,17 @@ namespace GroceryCo.Repository
     {
         private const string RepositoryDirectoryName = @"GroceryCoData";
 
+        private readonly string _directory;
+
         public LocalFileEntityRepository()
         {
         }
 
         public LocalFileEntityRepository(string directoryPath)
         {
-            Directory.CreateDirectory(Path.Combine(directoryPath, RepositoryDirectoryName));
+            _directory = Path.Combine(directoryPath, RepositoryDirectoryName);
+
+            Directory.CreateDirectory(_directory);
         }
 
         #region Implementation of IRepository
@@ -24,14 +31,29 @@ namespace GroceryCo.Repository
             if (entity == null)
                 throw new ArgumentException("entity cannot be null", nameof(entity));
 
-
-
-            throw new NotImplementedException();
+            using (StreamWriter file = File.AppendText(Path.Combine(_directory, typeof(TEntity).Name + ".json")))
+            {
+                file.WriteLine(JsonConvert.SerializeObject(entity));
+            }
         }
 
-        public TEntity Get<TEntity>(Guid id) where TEntity : Entity
+        public IEnumerable<TEntity> Get<TEntity>() where TEntity : Entity
         {
-            throw new NotImplementedException();
+            using (StreamReader file = File.OpenText(Path.Combine(_directory, typeof(TEntity).Name + ".json")))
+            using (JsonTextReader reader = new JsonTextReader(file) {SupportMultipleContent = true, FloatParseHandling = FloatParseHandling.Decimal})
+            {
+                List<TEntity> entities = new List<TEntity>();
+
+                while (reader.Read())
+                {
+                    JObject jEntity = (JObject)JToken.ReadFrom(reader);
+                    TEntity entity = JsonConvert.DeserializeObject<TEntity>(jEntity.ToString());
+
+                    entities.Add(entity);
+                }
+
+                return entities;
+            }
         }
 
         public void Update<TEntity>(TEntity entity) where TEntity : Entity

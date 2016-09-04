@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using GroceryCo.Exceptions;
 using GroceryCo.Model;
 using GroceryCo.Repository;
@@ -36,18 +37,12 @@ namespace GroceryCo.IntegrationTests.Repository
             GroceryItem newItem = new GroceryItem("Apple", 2.50m);
             _repository.Create(newItem);
 
-            GroceryItem retrievedItem = _repository.Get<GroceryItem>(newItem.Id);
+            GroceryItem retrievedItem = _repository.Get<GroceryItem>().Single(gi => gi.Id == newItem.Id);
 
             string expected = JsonConvert.SerializeObject(newItem);
             string actual = JsonConvert.SerializeObject(retrievedItem);
 
             Assert.AreEqual(expected, actual);
-        }
-
-        [Test]
-        public void getting_a_nonexistent_entity_throws_EntityNotFoundException()
-        {
-            Assert.Throws<EntityNotFoundException>(() => _repository.Get<Promotion>(Guid.NewGuid()));
         }
 
         [Test]
@@ -63,7 +58,8 @@ namespace GroceryCo.IntegrationTests.Repository
             _repository.Create(newItem);
             _repository.Delete<GroceryItem>(newItem.Id);
 
-            Assert.Throws<EntityNotFoundException>(() => _repository.Get<GroceryItem>(newItem.Id));
+            // ReSharper disable once ReturnValueOfPureMethodIsNotUsed
+            Assert.Throws<InvalidOperationException>(() => _repository.Get<GroceryItem>().Single(gi => gi.Id == newItem.Id));
         }
     }
 }

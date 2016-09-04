@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using GroceryCo.Model;
 
 namespace GroceryCo.Repository
@@ -7,7 +8,7 @@ namespace GroceryCo.Repository
     {
         void Create<TEntity>(TEntity entity) where TEntity : Entity;
 
-        TEntity Get<TEntity>(Guid id) where TEntity : Entity;
+        IEnumerable<TEntity> Get<TEntity>() where TEntity : Entity;
 
         void Update<TEntity>(TEntity entity) where TEntity : Entity;
 
