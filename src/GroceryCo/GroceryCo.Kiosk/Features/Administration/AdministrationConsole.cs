@@ -1,4 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using GroceryCo.Model;
 using GroceryCo.Repository;
 
 namespace GroceryCo.Kiosk.Features.Administration
@@ -47,7 +51,24 @@ namespace GroceryCo.Kiosk.Features.Administration
 
         public void EndPromotion()
         {
-            throw new NotImplementedException();
+            IEnumerable<GroceryItem> groceryItems = _repository.GetAll<GroceryItem>().ToList();
+
+            Console.WriteLine("Select the item to end promotions for:");
+            int selectedItemIndex = ConsoleHelper.SelectFromStringArray(groceryItems.Select(g => g.Name).ToArray());
+
+            GroceryItem selectedItem = groceryItems.ElementAt(selectedItemIndex);
+
+            Promotion toRemove = _repository.GetAll<Promotion>().SingleOrDefault(p => p.GroceryItemId == selectedItem.Id);
+
+            if (toRemove != null)
+            {
+                _repository.Delete(toRemove);
+                Console.WriteLine($"Promotion for {selectedItem.Name} has been ended.");
+            }
+            else
+            {
+                Console.WriteLine($"No promotions for {selectedItem.Name} to end.");
+            }
         }
     }
 }

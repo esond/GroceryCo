@@ -127,7 +127,7 @@ namespace GroceryCo.Kiosk.Features.Administration
         {
             Console.WriteLine("Select the item for this promotion:");
 
-            List<GroceryItem> items = _repository.GetAll<GroceryItem>().ToList();
+            IEnumerable<GroceryItem> items = _repository.GetAll<GroceryItem>().ToList();
             int itemIndex = ConsoleHelper.SelectFromStringArray(items.Select(i => i.Name).ToArray());
 
             return items.ElementAt(itemIndex);

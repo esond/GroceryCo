@@ -76,6 +76,8 @@ namespace GroceryCo.IntegrationTests.Repository
         [Test]
         public void deleted_entities_are_removed_from_repository()
         {
+            _repository.Create(new GroceryItem("Hot Sauce", decimal.MaxValue));
+
             GroceryItem newItem = new GroceryItem("Apple", 2.50m);
             _repository.Create(newItem);
             _repository.Delete(newItem);

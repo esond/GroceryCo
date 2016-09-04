@@ -83,13 +83,8 @@ namespace GroceryCo.Repository
 
             entities.Remove(entities.Single(e => e.Id == toRemove.Id));
 
-            if (!entities.Any())
-            {
-                File.WriteAllText(GetFilePathForType<TEntity>(), string.Empty);
+            File.WriteAllText(GetFilePathForType<TEntity>(), string.Empty);
 
-                return true;
-            }
-            
             foreach (TEntity entity in entities)
             {
                 Create(entity);
