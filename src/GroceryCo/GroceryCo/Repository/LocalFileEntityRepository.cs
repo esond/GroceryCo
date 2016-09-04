@@ -38,7 +38,7 @@ namespace GroceryCo.Repository
 
             using (StreamWriter file = File.AppendText(GetFilePathForType<TEntity>()))
             {
-                file.WriteLine(JsonConvert.SerializeObject(entity));
+                file.WriteLine(JsonConvert.SerializeObject(entity, Formatting.Indented));
             }
         }
 
@@ -92,13 +92,10 @@ namespace GroceryCo.Repository
 
                 return true;
             }
-
-            using (StreamWriter file = File.AppendText(GetFilePathForType<TEntity>()))
+            
+            foreach (TEntity entity in entities)
             {
-                foreach (TEntity entity in entities)
-                {
-                    file.WriteLine(JsonConvert.SerializeObject(entity));
-                }
+                Create(entity);
             }
 
             return true;
