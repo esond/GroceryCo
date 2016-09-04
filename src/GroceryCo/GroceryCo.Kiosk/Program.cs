@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
+using GroceryCo.Kiosk.Features;
+using GroceryCo.Repository;
 
 namespace GroceryCo.Kiosk
 {
@@ -10,6 +9,35 @@ namespace GroceryCo.Kiosk
     {
         public static void Main(string[] args)
         {
+            IRepository repository = new LocalFileEntityRepository(ConfigurationManager.AppSettings["RepositoryFolder"]);
+
+            bool quit = false;
+
+            while (!quit)
+            {
+                Console.Write("Select application mode ([A]dmin, [K]iosk) or [Q]uit:");
+
+                string mode = Console.ReadLine()?.ToLowerInvariant();
+
+                switch (mode)
+                {
+                    case "a":
+                        Console.WriteLine("Entering admin mode...");
+                        break;
+
+                    case "k":
+                        Console.WriteLine("Entering Kiosk mode...");
+                        break;
+
+                    case "q":
+                        quit = true;
+                        break;
+
+                    default:
+                        Console.WriteLine("Invalid selection.");
+                        break;
+                }
+            }
         }
     }
 }
