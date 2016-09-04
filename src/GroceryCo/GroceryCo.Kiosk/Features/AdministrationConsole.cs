@@ -50,42 +50,48 @@ namespace GroceryCo.Kiosk.Features
         //todo: this method is death and needs to be broken out into other classes
         public void AddPromotion()
         {
-            bool goBack = false;
+            Console.WriteLine("Select the type of promotion you want to create...");
 
-            while (!goBack)
+            Dictionary<int, string> promotionTypes =
+                Enum.GetValues(typeof(PromotionType))
+                    .Cast<PromotionType>()
+                    .ToDictionary(type => (int) type, type => type.ToString());
+
+            int promotionTypeCode = ConsoleHelper.SelectFromStringArray(promotionTypes.Values.ToArray());
+
+            switch ((PromotionType) promotionTypeCode)
             {
-                Console.WriteLine("Select the type of promotion you want to create...");
-
-                Dictionary<int, string> promotionTypes =
-                    Enum.GetValues(typeof(PromotionType))
-                        .Cast<PromotionType>()
-                        .ToDictionary(type => (int) type, type => type.ToString());
-
-                int promotionTypeCode = ConsoleHelper.SelectFromStringArray(promotionTypes.Values.ToArray());
-                
-                switch ((PromotionType) promotionTypeCode)
-                {
-                    case PromotionType.OnSale:
-                        AddOnSalePromotion();
-                        break;
-                    case PromotionType.Group:
-                        AddGroupPromotion();
-                        break;
-                    case PromotionType.AdditionalProduct:
-                        AddAdditionalProductPromotion();
-                        break;
-                    default:
-                        Console.WriteLine("Invalid selection.");
-                        break;
-                }
+                case PromotionType.OnSale:
+                    AddOnSalePromotion();
+                    break;
+                case PromotionType.Group:
+                    AddGroupPromotion();
+                    break;
+                case PromotionType.AdditionalProduct:
+                    AddAdditionalProductPromotion();
+                    break;
+                default:
+                    Console.WriteLine("Invalid selection.");
+                    break;
             }
         }
 
         private void AddOnSalePromotion()
         {
+            Console.WriteLine("Select the item for this promotion:");
 
+            List<GroceryItem> items = _repository.GetAll<GroceryItem>().ToList();
+            int itemIndex = ConsoleHelper.SelectFromStringArray(items.Select(i => i.Name).ToArray());
 
-            throw new NotImplementedException();
+            Console.Write("Enter the sale price (0.00):");
+            decimal salePrice = decimal.Parse(Console.ReadLine());
+
+            GroceryItem selectedItem = items.ElementAt(itemIndex);
+
+            Promotion promotion = CreateOnSalePromotion(selectedItem.Id, salePrice);
+            _repository.Create(promotion);
+
+            Console.WriteLine($"Promotion for {selectedItem.Name} added.");
         }
 
         private void AddGroupPromotion()
@@ -118,7 +124,7 @@ namespace GroceryCo.Kiosk.Features
             promotion.PromotionType = PromotionType.Group;
             promotion.RequiredItems = requiredItems;
 
-            promotion.SalePrice = groupPrice / requiredItems;
+            promotion.SalePrice = groupPrice/requiredItems;
 
             return promotion;
         }
@@ -133,7 +139,7 @@ namespace GroceryCo.Kiosk.Features
 
             GroceryItem item = _repository.GetAll<GroceryItem>().Single(g => g.Id == groceryItemId);
 
-            double calculatedSalePrice = decimal.ToDouble(item.Price) * discount;
+            double calculatedSalePrice = decimal.ToDouble(item.Price)*discount;
 
             promotion.SalePrice = new decimal(Math.Round(calculatedSalePrice, 2));
 
