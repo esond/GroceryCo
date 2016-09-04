@@ -65,12 +65,12 @@ namespace GroceryCo.IntegrationTests.Repository
             Promotion original = new Promotion();
             _repository.Create(original);
 
-            original.DiscountType = DiscountType.AdditionalProduct;
+            original.PromotionType = PromotionType.AdditionalProduct;
             _repository.Update(original);
 
             Promotion updated = _repository.GetAll<Promotion>().Single(p => p.Id == original.Id);
 
-            Assert.AreEqual(original.DiscountType, updated.DiscountType);
+            Assert.AreEqual(original.PromotionType, updated.PromotionType);
         }
 
         [Test]

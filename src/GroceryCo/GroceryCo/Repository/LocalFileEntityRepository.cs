@@ -10,9 +10,7 @@ namespace GroceryCo.Repository
 {
     public class LocalFileEntityRepository : IRepository
     {
-        private const string RepositoryName = @"GroceryCoData";
-
-        private readonly string _directory;
+        private readonly string _directoryPath;
 
         public LocalFileEntityRepository()
         {
@@ -20,9 +18,8 @@ namespace GroceryCo.Repository
 
         public LocalFileEntityRepository(string directoryPath)
         {
-            _directory = Path.Combine(directoryPath, RepositoryName);
-
-            Directory.CreateDirectory(_directory);
+            _directoryPath = directoryPath;
+            Directory.CreateDirectory(_directoryPath);
         }
 
         #region Implementation of IRepository
@@ -44,7 +41,7 @@ namespace GroceryCo.Repository
 
         public IEnumerable<TEntity> GetAll<TEntity>() where TEntity : Entity
         {
-            if (!File.Exists(Path.Combine(_directory, typeof(TEntity).Name + ".json")))
+            if (!File.Exists(Path.Combine(_directoryPath, typeof(TEntity).Name + ".json")))
                 return Enumerable.Empty<TEntity>();
 
             using (StreamReader file = File.OpenText(GetFilePathForType<TEntity>()))
@@ -114,7 +111,7 @@ namespace GroceryCo.Repository
 
         private string GetFilePathForType<TEntity>() where TEntity : Entity
         {
-            return Path.Combine(_directory, typeof(TEntity).Name + ".json");
+            return Path.Combine(_directoryPath, typeof(TEntity).Name + ".json");
         }
 
         private bool EntityExists<TEntity>(Guid id) where TEntity : Entity

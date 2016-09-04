@@ -23,6 +23,8 @@ namespace GroceryCo.Kiosk
                 {
                     case "a":
                         Console.WriteLine("Entering admin mode...");
+                        AdministrationConsole admin = new AdministrationConsole(repository);
+                        admin.Run();
                         break;
 
                     case "k":

@@ -4,9 +4,7 @@ namespace GroceryCo.Model
 {
     public class Promotion : Entity
     {
-        public DiscountType DiscountType { get; set; }
-
-        public int DaysInEffect { get; set; }
+        public PromotionType PromotionType { get; set; }
 
         public Guid GroceryItemId { get; set; }
 
@@ -15,7 +13,7 @@ namespace GroceryCo.Model
         public int RequiredItems { get; set; }
     }
 
-    public enum DiscountType
+    public enum PromotionType
     {
         OnSale = 1,
         Group = 2,
