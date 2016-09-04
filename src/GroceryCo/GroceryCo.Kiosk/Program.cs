@@ -2,12 +2,14 @@
 using System.Configuration;
 using GroceryCo.Kiosk.Features;
 using GroceryCo.Kiosk.Features.Administration;
+using GroceryCo.Kiosk.Features.Cashier;
 using GroceryCo.Repository;
 
 namespace GroceryCo.Kiosk
 {
     public class Program
     {
+        [STAThread]
         public static void Main(string[] args)
         {
             IRepository repository = new LocalFileEntityRepository(ConfigurationManager.AppSettings["RepositoryFolder"]);
@@ -16,7 +18,7 @@ namespace GroceryCo.Kiosk
 
             while (!quit)
             {
-                Console.Write("Select application mode ([A]dmin, [K]iosk) or [Q]uit:");
+                Console.Write("Select application mode ([A]dmin, [C]ashier)");
 
                 string mode = Console.ReadLine()?.ToLowerInvariant();
 
@@ -28,12 +30,10 @@ namespace GroceryCo.Kiosk
                         admin.Run();
                         break;
 
-                    case "k":
+                    case "c":
                         Console.WriteLine("Entering Kiosk mode...");
-                        break;
-
-                    case "q":
-                        quit = true;
+                        CashierConsole cashierConsole = new CashierConsole(repository);
+                        cashierConsole.Run();
                         break;
 
                     default:
