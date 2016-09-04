@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Configuration;
 using GroceryCo.Kiosk.Features;
+using GroceryCo.Kiosk.Features.Administration;
 using GroceryCo.Repository;
 
 namespace GroceryCo.Kiosk

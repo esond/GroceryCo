@@ -45,7 +45,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Features\AdministrationConsole.cs" />
+    <Compile Include="Features\Administration\AdministrationConsole.cs" />
+    <Compile Include="Features\Administration\AddPromotionConsole.cs" />
     <Compile Include="Features\ConsoleHelper.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

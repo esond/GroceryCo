@@ -13,7 +13,7 @@ namespace GroceryCo.Kiosk.Features
 
             Console.Write("Selection:");
 
-            return int.Parse(Console.ReadLine());
+            return int.Parse(Console.ReadLine()) - 1;
         }
     }
 }
