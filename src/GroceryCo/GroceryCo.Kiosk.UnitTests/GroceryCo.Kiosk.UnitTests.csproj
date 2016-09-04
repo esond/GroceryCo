@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>GroceryCo.Kiosk.UnitTests</RootNamespace>
     <AssemblyName>GroceryCo.Kiosk.UnitTests</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -48,6 +49,16 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GroceryCo.Kiosk\GroceryCo.Kiosk.csproj">
+      <Project>{418a9a07-85f9-4e63-82d0-9dffb7f181fb}</Project>
+      <Name>GroceryCo.Kiosk</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\GroceryCo\GroceryCo.csproj">
+      <Project>{EE51F455-E78F-48E5-9FFC-0F5F07F2B52A}</Project>
+      <Name>GroceryCo</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

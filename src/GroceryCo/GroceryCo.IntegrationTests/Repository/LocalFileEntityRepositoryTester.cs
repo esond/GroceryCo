@@ -62,7 +62,7 @@ namespace GroceryCo.IntegrationTests.Repository
         [Test]
         public void retrieving_an_updated_entity_yields_entity_with_updated_values()
         {
-            Promotion original = new Promotion(DiscountType.OnSale);
+            Promotion original = new Promotion();
             _repository.Create(original);
 
             original.DiscountType = DiscountType.AdditionalProduct;
