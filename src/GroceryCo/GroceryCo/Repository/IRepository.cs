@@ -8,7 +8,7 @@ namespace GroceryCo.Repository
     {
         void Create<TEntity>(TEntity entity) where TEntity : Entity;
 
-        IEnumerable<TEntity> Get<TEntity>() where TEntity : Entity;
+        IEnumerable<TEntity> GetAll<TEntity>() where TEntity : Entity;
 
         void Update<TEntity>(TEntity entity) where TEntity : Entity;
 

@@ -37,7 +37,7 @@ namespace GroceryCo.Repository
             }
         }
 
-        public IEnumerable<TEntity> Get<TEntity>() where TEntity : Entity
+        public IEnumerable<TEntity> GetAll<TEntity>() where TEntity : Entity
         {
             using (StreamReader file = File.OpenText(Path.Combine(_directory, typeof(TEntity).Name + ".json")))
             using (JsonTextReader reader = new JsonTextReader(file) {SupportMultipleContent = true, FloatParseHandling = FloatParseHandling.Decimal})
