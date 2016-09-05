@@ -31,7 +31,7 @@ namespace GroceryCo.Kiosk.Features.Cashier
                 switch (action)
                 {
                     case "s":
-                        PerformCheckout();
+                        StartCheckout();
                         break;
 
                     case "b":
@@ -45,7 +45,7 @@ namespace GroceryCo.Kiosk.Features.Cashier
             }
         }
 
-        private void PerformCheckout()
+        private void StartCheckout()
         {
             IEnumerable<GroceryItem> allItems = _repository.GetAll<GroceryItem>().ToList();
             IEnumerable<Promotion> promotions = _repository.GetAll<Promotion>().ToList();
@@ -60,7 +60,7 @@ namespace GroceryCo.Kiosk.Features.Cashier
                 GroceryItem purchaseItem = allItems.Single(i => i.Name == basketItem);
                 purchasedItems.Add(purchaseItem);
 
-                Promotion promotion = promotions.SingleOrDefault(p => p.GroceryItemId == purchaseItem.Id);
+                Promotion promotion = promotions.SingleOrDefault(p => p.GroceryItemName == purchaseItem.Name);
 
                 if ((promotion != null) && !effectivePromotions.Exists(p => p.Id == promotion.Id))
                     effectivePromotions.Add(promotion);

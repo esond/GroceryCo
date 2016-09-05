@@ -14,9 +14,7 @@ namespace GroceryCo.Kiosk
         {
             IRepository repository = new LocalFileEntityRepository(ConfigurationManager.AppSettings["RepositoryFolder"]);
 
-            bool quit = false;
-
-            while (!quit)
+            while (true)
             {
                 Console.Write("Select application mode ([A]dmin, [C]ashier)");
 

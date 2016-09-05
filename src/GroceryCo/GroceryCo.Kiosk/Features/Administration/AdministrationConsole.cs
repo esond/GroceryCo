@@ -57,7 +57,7 @@ namespace GroceryCo.Kiosk.Features.Administration
 
             GroceryItem selectedItem = groceryItems.ElementAt(selectedItemIndex);
 
-            Promotion toRemove = _repository.GetAll<Promotion>().SingleOrDefault(p => p.GroceryItemId == selectedItem.Id);
+            Promotion toRemove = _repository.GetAll<Promotion>().SingleOrDefault(p => p.GroceryItemName == selectedItem.Name);
 
             if (toRemove != null)
             {

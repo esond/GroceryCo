@@ -19,7 +19,7 @@ namespace GroceryCo.Kiosk.Features.Administration
         {
             GroceryItem toPromote = SelectGroceryItem();
 
-            if (GroceryItemHasExistingPromotions(toPromote.Id))
+            if (GroceryItemHasExistingPromotions(toPromote.Name))
                 return;
 
             Console.WriteLine("Select the type of promotion you want to create...");
@@ -34,13 +34,13 @@ namespace GroceryCo.Kiosk.Features.Administration
             switch ((PromotionType)promotionTypeCode)
             {
                 case PromotionType.OnSale:
-                    AddOnSalePromotion(toPromote.Id);
+                    AddOnSalePromotion(toPromote);
                     break;
                 case PromotionType.Group:
-                    AddGroupPromotion(toPromote.Id);
+                    AddGroupPromotion(toPromote);
                     break;
                 case PromotionType.AdditionalProduct:
-                    AddAdditionalProductPromotion(toPromote.Id);
+                    AddAdditionalProductPromotion(toPromote);
                     break;
                 default:
                     Console.WriteLine("Invalid selection.");
@@ -50,49 +50,24 @@ namespace GroceryCo.Kiosk.Features.Administration
             Console.WriteLine($"Promotion added for {toPromote.Name}.");
         }
 
-        private void AddOnSalePromotion(Guid groceryItemId)
+        private void AddOnSalePromotion(GroceryItem groceryItem)
         {
             decimal salePrice = GetSalePrice();
 
-            Promotion promotion = CreateOnSalePromotion(groceryItemId, salePrice);
+            Promotion promotion = CreatePromotion(groceryItem, PromotionType.OnSale, 0, salePrice);
             _repository.Create(promotion);
         }
 
-        private Promotion CreateOnSalePromotion(Guid groceryItemId, decimal salePrice)
-        {
-            Promotion promotion = new Promotion();
-
-            promotion.GroceryItemId = groceryItemId;
-            promotion.PromotionType = PromotionType.OnSale;
-            promotion.RequiredItems = 0;
-            promotion.SalePrice = salePrice;
-
-            return promotion;
-        }
-
-        private void AddGroupPromotion(Guid groceryItemId)
+        private void AddGroupPromotion(GroceryItem groceryItem)
         {
             int requiredItems = GetRequiredItems();
             decimal salePrice = GetSalePrice();
 
-            Promotion promotion = CreateGroupPromotion(groceryItemId, requiredItems, salePrice);
+            Promotion promotion = CreatePromotion(groceryItem, PromotionType.Group, requiredItems, salePrice);
             _repository.Create(promotion);
         }
 
-        private Promotion CreateGroupPromotion(Guid groceryItemId, int requiredItems, decimal groupPrice)
-        {
-            Promotion promotion = new Promotion();
-
-            promotion.GroceryItemId = groceryItemId;
-            promotion.PromotionType = PromotionType.Group;
-            promotion.RequiredItems = requiredItems;
-
-            promotion.SalePrice = groupPrice / requiredItems;
-
-            return promotion;
-        }
-
-        private void AddAdditionalProductPromotion(Guid groceryItemId)
+        private void AddAdditionalProductPromotion(GroceryItem groceryItem)
         {
             int requiredItems = GetRequiredItems();
 
@@ -102,25 +77,8 @@ namespace GroceryCo.Kiosk.Features.Administration
             if (discount > 1)
                 discount = discount/100;
 
-            Promotion promotion = CreateAdditionalProductPromotion(groceryItemId, requiredItems, discount);
+            Promotion promotion = CreatePromotion(groceryItem, PromotionType.AdditionalProduct, requiredItems, discount);
             _repository.Create(promotion);
-        }
-
-        private Promotion CreateAdditionalProductPromotion(Guid groceryItemId, int requiredItems, double discount)
-        {
-            Promotion promotion = new Promotion();
-
-            promotion.GroceryItemId = groceryItemId;
-            promotion.PromotionType = PromotionType.Group;
-            promotion.RequiredItems = requiredItems;
-
-            GroceryItem item = _repository.GetAll<GroceryItem>().Single(g => g.Id == groceryItemId);
-
-            double calculatedSalePrice = decimal.ToDouble(item.Price) * discount;
-
-            promotion.SalePrice = new decimal(Math.Round(calculatedSalePrice, 2));
-
-            return promotion;
         }
 
         private GroceryItem SelectGroceryItem()
@@ -145,15 +103,34 @@ namespace GroceryCo.Kiosk.Features.Administration
             return int.Parse(Console.ReadLine());
         }
 
-        private bool GroceryItemHasExistingPromotions(Guid groceryItemId)
+        private bool GroceryItemHasExistingPromotions(string groceryItemName)
         {
-            if (_repository.GetAll<Promotion>().Any(p => p.GroceryItemId == groceryItemId))
-            {
-                Console.WriteLine("There is already a promotion running for this item.");
-                return true;
-            }
+            if (_repository.GetAll<Promotion>().All(p => p.GroceryItemName != groceryItemName))
+                return false;
 
-            return false;
+            Console.WriteLine("There is already a promotion running for this item.");
+            return true;
+        }
+
+        public static Promotion CreatePromotion(GroceryItem groceryItem, PromotionType type, int requiredItems,
+            decimal salePrice)
+        {
+            Promotion promotion = new Promotion(groceryItem.Name, type, requiredItems);
+
+            promotion.Discount = groceryItem.Price == decimal.Zero
+                ? promotion.Discount = 0
+                : promotion.Discount = (double)(salePrice / groceryItem.Price);
+            
+            return promotion;
+        }
+
+        public static Promotion CreatePromotion(GroceryItem groceryItem, PromotionType type, int requiredItems,
+            double discount)
+        {
+            Promotion promotion = new Promotion(groceryItem.Name, type, requiredItems);
+            promotion.Discount = discount;
+
+            return promotion;
         }
     }
 }
