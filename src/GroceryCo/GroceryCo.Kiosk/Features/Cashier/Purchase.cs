@@ -60,6 +60,9 @@ namespace GroceryCo.Kiosk.Features.Cashier
             IEnumerable<PurchaseItem> applicableItems =
                 PurchaseItems.Where(pi => pi.GroceryItemName == promotion.GroceryItemName).ToList();
 
+            if (promotion.RequiredItems == 0)
+                return;
+
             for (int i = 0; i < applicableItems.Count(); i += promotion.RequiredItems)
             {
                 IEnumerable<PurchaseItem> group = applicableItems.Skip(i).Take(promotion.RequiredItems).ToList();
