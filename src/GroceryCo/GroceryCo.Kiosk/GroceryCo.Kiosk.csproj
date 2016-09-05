@@ -49,8 +49,11 @@
     <Compile Include="Features\Administration\AdministrationConsole.cs" />
     <Compile Include="Features\Administration\AddPromotionConsole.cs" />
     <Compile Include="Features\Cashier\Cashier.cs" />
+    <Compile Include="Features\Cashier\Purchase.cs" />
+    <Compile Include="Features\Cashier\PurchaseItem.cs" />
     <Compile Include="Features\ConsoleHelper.cs" />
     <Compile Include="Features\Cashier\CashierConsole.cs" />
+    <Compile Include="Features\ReceiptGenerator.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
