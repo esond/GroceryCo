@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Configuration;
-using GroceryCo.Kiosk.Features;
 using GroceryCo.Kiosk.Features.Administration;
 using GroceryCo.Kiosk.Features.Cashier;
 using GroceryCo.Repository;

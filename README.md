@@ -7,6 +7,8 @@ A console-based checkout system for customers of GroceryCo supermarkets.
   
 The above packages are all available on NuGet.
 
+I also used a code snippet from a stackoverflow answer to generate tabular console output (http://stackoverflow.com/a/19353995/1672990).
+
 ####Assumptions Made
   - Sale types are not user defined. That is to say, new "types" of sales (a "combo" deal for example; buy one Apple and save on Oranges) will require new development.
 
