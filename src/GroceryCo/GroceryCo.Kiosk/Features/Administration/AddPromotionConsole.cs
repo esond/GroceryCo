@@ -30,7 +30,7 @@ namespace GroceryCo.Kiosk.Features.Administration
                     .Cast<PromotionType>()
                     .ToDictionary(type => (int)type, type => type.ToString());
 
-            int promotionTypeCode = ConsoleHelper.SelectFromStringArray(promotionTypes.Values.ToArray()) + 1;
+            int promotionTypeCode = ConsoleHelper.SelectIndexFromStringArray(promotionTypes.Values.ToArray()) + 1;
 
             switch ((PromotionType)promotionTypeCode)
             {
@@ -87,7 +87,7 @@ namespace GroceryCo.Kiosk.Features.Administration
             Console.WriteLine("Select the item for this promotion:");
 
             IEnumerable<GroceryItem> items = _repository.GetAll<GroceryItem>().ToList();
-            int itemIndex = ConsoleHelper.SelectFromStringArray(items.Select(i => i.Name).ToArray());
+            int itemIndex = ConsoleHelper.SelectIndexFromStringArray(items.Select(i => i.Name).ToArray());
 
             return items.ElementAt(itemIndex);
         }
