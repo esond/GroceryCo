@@ -4,7 +4,7 @@ namespace GroceryCo.Kiosk.Features
 {
     public static class ConsoleHelper
     {
-        public static int SelectFromStringArray(string[] items)
+        public static int SelectIndexFromStringArray(string[] items)
         {
             if (items.Length == 0)
                 throw new ArgumentException("items cannot be emtpty", nameof(items));
