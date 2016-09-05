@@ -51,7 +51,7 @@ namespace GroceryCo.Kiosk.Features.Cashier
             {
                 double discountedPrice = (double) item.DiscountedPrice*promotion.Discount;
 
-                item.DiscountedPrice = Convert.ToDecimal(discountedPrice);
+                item.DiscountedPrice = Math.Round(Convert.ToDecimal(discountedPrice), 2);
             }
         }
 
@@ -70,7 +70,7 @@ namespace GroceryCo.Kiosk.Features.Cashier
                 {
                     double discountedPrice = (double)item.DiscountedPrice * promotion.Discount;
 
-                    item.DiscountedPrice = Convert.ToDecimal(discountedPrice);
+                    item.DiscountedPrice = Math.Round(Convert.ToDecimal(discountedPrice), 2);
                 }
             }
         }
@@ -90,7 +90,7 @@ namespace GroceryCo.Kiosk.Features.Cashier
 
                 double discountedPrice = (double) item.DiscountedPrice * promotion.Discount;
 
-                item.DiscountedPrice = Convert.ToDecimal(discountedPrice);
+                item.DiscountedPrice = Math.Round(Convert.ToDecimal(discountedPrice), 2);
             }
         }
     }
