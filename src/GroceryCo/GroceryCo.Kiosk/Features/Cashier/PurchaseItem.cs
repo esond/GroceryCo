@@ -12,6 +12,8 @@ namespace GroceryCo.Kiosk.Features.Cashier
 
         public GroceryItem GroceryItem { get; set; }
 
+        public string GroceryItemName => GroceryItem?.Name;
+
         public decimal DiscountedPrice { get; set; }
     }
 }

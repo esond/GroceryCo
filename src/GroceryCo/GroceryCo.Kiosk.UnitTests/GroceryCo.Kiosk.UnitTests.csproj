@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Features\Administration\AddPromotionConsoleTester.cs" />
+    <Compile Include="Features\Cashier\PurchaseTester.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

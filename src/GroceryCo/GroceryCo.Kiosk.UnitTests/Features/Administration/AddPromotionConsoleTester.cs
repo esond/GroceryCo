@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using GroceryCo.Kiosk.Features.Administration;
 using GroceryCo.Kiosk.Infrastructure;
 using GroceryCo.Model;
 using NUnit.Framework;
