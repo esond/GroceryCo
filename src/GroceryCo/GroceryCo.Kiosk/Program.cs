@@ -9,7 +9,7 @@ namespace GroceryCo.Kiosk
 {
     public class Program
     {
-        [STAThread]
+        [STAThread] // Required to use dialogs.
         public static void Main(string[] args)
         {
             IRepository repository = new LocalFileEntityRepository(ConfigurationManager.AppSettings["RepositoryFolder"]);
