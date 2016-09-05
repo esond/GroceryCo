@@ -30,7 +30,7 @@ namespace GroceryCo.Kiosk.Features.Administration
                     .Cast<PromotionType>()
                     .ToDictionary(type => (int)type, type => type.ToString());
 
-            int promotionTypeCode = ConsoleHelper.SelectFromStringArray(promotionTypes.Values.ToArray());
+            int promotionTypeCode = ConsoleHelper.SelectFromStringArray(promotionTypes.Values.ToArray()) + 1;
 
             switch ((PromotionType)promotionTypeCode)
             {
