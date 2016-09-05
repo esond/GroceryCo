@@ -1,5 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
+using System.IO;
 using GroceryCo.Model;
 
 namespace GroceryCo.Kiosk.Features.Cashier
@@ -18,10 +20,14 @@ namespace GroceryCo.Kiosk.Features.Cashier
 
         private static void DisplayReciept(Purchase purchase)
         {
-            string recieptText = ReceiptGenerator.GenerateRecieptText(purchase);
+            string receiptPath = Path.Combine(ConfigurationManager.AppSettings["RepositoryFolder"], "receipt.txt");
+            
+            using (StreamWriter file = new StreamWriter(receiptPath))
+            {
+                file.Write(ReceiptGenerator.GenerateReciept(purchase));
+            }
 
-            //todo: display the reciept
-            throw new NotImplementedException();
+            Process.Start(receiptPath);
         }
     }
 }
