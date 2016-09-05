@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using GroceryCo.Kiosk.Features.Administration;
+using GroceryCo.Kiosk.Infrastructure;
 using GroceryCo.Model;
 using NUnit.Framework;
 
@@ -14,6 +15,7 @@ namespace GroceryCo.Kiosk.UnitTests.Features.Administration
             get
             {
                 yield return new GroceryItem("a", 100.00m);
+                yield return new GroceryItem("b", decimal.MinValue);
                 yield return new GroceryItem("c", 6.66m);
                 yield return new GroceryItem("d", 1.25m);
                 yield return new GroceryItem("e", 22m);
@@ -41,7 +43,7 @@ namespace GroceryCo.Kiosk.UnitTests.Features.Administration
         {
             foreach (decimal salePrice in SalePrices)
             {
-                Promotion promotion = AddPromotionConsole.CreatePromotion(groceryItem, PromotionType.OnSale, 0, salePrice);
+                Promotion promotion = PromotionFactory.CreatePromotion(groceryItem, PromotionType.OnSale, 0, salePrice);
 
                 double expected = (double) (salePrice/groceryItem.Price);
 
@@ -55,7 +57,7 @@ namespace GroceryCo.Kiosk.UnitTests.Features.Administration
         {
             foreach (decimal salePrice in SalePrices)
             {
-                Promotion promotion = AddPromotionConsole.CreatePromotion(groceryItem, PromotionType.Group, 666, salePrice);
+                Promotion promotion = PromotionFactory.CreatePromotion(groceryItem, PromotionType.Group, 666, salePrice);
 
                 double expected = (double)(salePrice / groceryItem.Price);
 
@@ -69,7 +71,7 @@ namespace GroceryCo.Kiosk.UnitTests.Features.Administration
         {
             foreach (decimal salePrice in SalePrices)
             {
-                Promotion promotion = AddPromotionConsole.CreatePromotion(groceryItem, PromotionType.AdditionalProduct, 0, salePrice);
+                Promotion promotion = PromotionFactory.CreatePromotion(groceryItem, PromotionType.AdditionalProduct, 0, salePrice);
 
                 double expected = (double)(salePrice / groceryItem.Price);
 
@@ -82,7 +84,7 @@ namespace GroceryCo.Kiosk.UnitTests.Features.Administration
         {
             GroceryItem foo = new GroceryItem("foo", decimal.Zero);
 
-            Promotion promotion = AddPromotionConsole.CreatePromotion(foo, PromotionType.OnSale, 0, 0m);
+            Promotion promotion = PromotionFactory.CreatePromotion(foo, PromotionType.OnSale, 0, 0m);
             
             Assert.That(Math.Abs(promotion.Discount) < 0.0001);
         }
