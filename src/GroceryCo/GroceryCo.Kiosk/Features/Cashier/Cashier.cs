@@ -1,17 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GroceryCo.Model;
 
 namespace GroceryCo.Kiosk.Features.Cashier
 {
-    public static class Cashier
+    public class Cashier
     {
-        public static void DoCheckout(IEnumerable<GroceryItem> basketItems,
+        public static void DoCheckout(IEnumerable<PurchaseItem> basketItems,
             IEnumerable<Promotion> effectivePromotions)
         {
+            Purchase purchase = new Purchase(basketItems);
+
+            purchase.ApplyManyPromotions(effectivePromotions);
+
+            DisplayReciept(purchase);
+        }
+
+        private static void DisplayReciept(Purchase purchase)
+        {
+            string recieptText = ReceiptGenerator.GenerateRecieptText(purchase);
+
+            //todo: display the reciept
             throw new NotImplementedException();
         }
     }

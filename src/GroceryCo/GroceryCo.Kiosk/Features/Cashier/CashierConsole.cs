@@ -50,17 +50,17 @@ namespace GroceryCo.Kiosk.Features.Cashier
             IEnumerable<GroceryItem> allItems = _repository.GetAll<GroceryItem>().ToList();
             IEnumerable<Promotion> promotions = _repository.GetAll<Promotion>().ToList();
 
-            List<GroceryItem> purchasedItems = new List<GroceryItem>();
+            List<PurchaseItem> purchasedItems = new List<PurchaseItem>();
             List<Promotion> effectivePromotions = new List<Promotion>();
 
             IEnumerable<string> basketContents = GetBasketContents();
 
             foreach (string basketItem in basketContents)
             {
-                GroceryItem purchaseItem = allItems.Single(i => i.Name == basketItem);
-                purchasedItems.Add(purchaseItem);
+                GroceryItem purchasedGroceryItem = allItems.Single(i => i.Name == basketItem);
+                purchasedItems.Add(new PurchaseItem(purchasedGroceryItem));
 
-                Promotion promotion = promotions.SingleOrDefault(p => p.GroceryItemName == purchaseItem.Name);
+                Promotion promotion = promotions.SingleOrDefault(p => p.GroceryItemName == purchasedGroceryItem.Name);
 
                 if ((promotion != null) && !effectivePromotions.Exists(p => p.Id == promotion.Id))
                     effectivePromotions.Add(promotion);

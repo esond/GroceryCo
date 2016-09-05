@@ -1,15 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using GroceryCo.Model;
 
 namespace GroceryCo.Kiosk.Features.Cashier
 {
     public class Purchase
     {
-        public Purchase()
-        {
-        }
-
         public Purchase(IEnumerable<PurchaseItem> purchaseItems)
         {
             PurchaseItems = purchaseItems;
@@ -17,9 +14,18 @@ namespace GroceryCo.Kiosk.Features.Cashier
 
         public IEnumerable<PurchaseItem> PurchaseItems { get; set; }
 
-        public void ApplyPromotions(IEnumerable<Promotion> promotion)
+        public decimal Total => PurchaseItems.Sum(pi => pi.DiscountedPrice);
+        
+        public void ApplyManyPromotions(IEnumerable<Promotion> promotions)
+        {
+            foreach (Promotion promotion in promotions)
+                ApplyPromotion(promotion);
+        }
+
+        public void ApplyPromotion(Promotion promotion)
         {
             throw new NotImplementedException();
         }
+
     }
 }
