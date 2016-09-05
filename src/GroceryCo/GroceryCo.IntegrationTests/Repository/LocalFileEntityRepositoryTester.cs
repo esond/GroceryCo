@@ -18,7 +18,7 @@ namespace GroceryCo.IntegrationTests.Repository
         [SetUp]
         public void SetUp()
         {
-            _repositoryFolderName = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+            _repositoryFolderName = Path.Combine(Path.GetTempPath(),
                 "GroceryCo.IntegrationTests");
 
             _repository = new LocalFileEntityRepository(_repositoryFolderName);

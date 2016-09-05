@@ -16,11 +16,9 @@ namespace GroceryCo.Kiosk.UnitTests.Features.Cashier
         {
             get
             {
-                yield return new GroceryItem("apple", 1.50m);
-                yield return new GroceryItem("banana", 0.50m);
-                yield return new GroceryItem("orange", 1.00m);
-                yield return new GroceryItem("bread", 6.66m);
-                yield return new GroceryItem("eggs", 5.23m);
+                yield return new GroceryItem("apple", 1.52m);
+                yield return new GroceryItem("banana", 6.66m);
+                yield return new GroceryItem("orange", 1.11m);
             }
         }
 
@@ -66,6 +64,16 @@ namespace GroceryCo.Kiosk.UnitTests.Features.Cashier
             }
         }
 
+        public static IEnumerable<IEnumerable<PurchaseItem>> SampleBaskets
+        {
+            get
+            {
+                yield return OnSalePromomoSampleBasket;
+                yield return GroupPromoSampleBasket;
+                yield return AdditionalItemPromoSampleBasket;
+            }
+        }
+
         private static GroceryItem GetTestGroceryItem(string name)
         {
             return TestGroceryItems.Single(g => g.Name == name);
@@ -94,29 +102,33 @@ namespace GroceryCo.Kiosk.UnitTests.Features.Cashier
             }
         }
 
-        // TODO: These tests are shockingly big and need to be refactored.
         [Test]
-        public void applying_on_sale_promo_sets_sale_price_for_all_applicable_items_in_purchase()
+        [TestCaseSource(nameof(SampleBaskets))]
+        public void applying_on_sale_promo_sets_sale_price_for_all_applicable_items_in_purchase(IEnumerable<PurchaseItem> basket)
         {
-            const decimal appleSalePrice = 0.50m;
-            const decimal orangeSalePrice = 0.25m;
+            const decimal salePrice = 0.50m;
+
+            IEnumerable<string> itemNames = new[] {"apple", "orange", "banana"};
 
             List<Promotion> promotions = new List<Promotion>();
 
-            promotions.Add(PromotionFactory.CreatePromotion(
-                GetTestGroceryItem("apple"), PromotionType.OnSale, 0, appleSalePrice));
-            promotions.Add(PromotionFactory.CreatePromotion(
-                GetTestGroceryItem("orange"), PromotionType.OnSale, 0, orangeSalePrice));
+            foreach (string itemName in itemNames)
+            {
+                promotions.Add(PromotionFactory.CreatePromotion(
+                    GetTestGroceryItem(itemName), PromotionType.OnSale, 0, salePrice));
+            }
 
             Purchase purchase = new Purchase(OnSalePromomoSampleBasket);
             purchase.ApplyManyPromotions(promotions);
 
-            IEnumerable<PurchaseItem> apples = purchase.PurchaseItems.Where(pi => pi.GroceryItemName == "apple");
-            Assert.That(apples.All(a => a.DiscountedPrice == appleSalePrice));
+            foreach (string itemName in itemNames)
+            {
+                IEnumerable<PurchaseItem> items = purchase.PurchaseItems.Where(pi => pi.GroceryItemName == itemName);
 
-            IEnumerable<PurchaseItem> oranges = purchase.PurchaseItems.Where(pi => pi.GroceryItemName == "orange");
-            Assert.That(oranges.All(a => a.DiscountedPrice == orangeSalePrice));
+                Assert.That(items.All(a => a.DiscountedPrice == salePrice));
+            }
         }
+
 
         #region Group Promo Tests
 
