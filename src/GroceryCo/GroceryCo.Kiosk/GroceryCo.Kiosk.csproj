@@ -54,6 +54,7 @@
     <Compile Include="Features\Cashier\ReceiptGenerator.cs" />
     <Compile Include="Features\ConsoleHelper.cs" />
     <Compile Include="Features\Cashier\CashierConsole.cs" />
+    <Compile Include="Infrastructure\PromotionFactory.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

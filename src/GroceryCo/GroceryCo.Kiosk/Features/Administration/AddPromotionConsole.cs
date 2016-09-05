@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using GroceryCo.Kiosk.Infrastructure;
 using GroceryCo.Model;
 using GroceryCo.Repository;
 
@@ -54,7 +55,7 @@ namespace GroceryCo.Kiosk.Features.Administration
         {
             decimal salePrice = GetSalePrice();
 
-            Promotion promotion = CreatePromotion(groceryItem, PromotionType.OnSale, 0, salePrice);
+            Promotion promotion = PromotionFactory.CreatePromotion(groceryItem, PromotionType.OnSale, 0, salePrice);
             _repository.Create(promotion);
         }
 
@@ -63,7 +64,7 @@ namespace GroceryCo.Kiosk.Features.Administration
             int requiredItems = GetRequiredItems();
             decimal salePrice = GetSalePrice();
 
-            Promotion promotion = CreatePromotion(groceryItem, PromotionType.Group, requiredItems, salePrice);
+            Promotion promotion = PromotionFactory.CreatePromotion(groceryItem, PromotionType.Group, requiredItems, salePrice);
             _repository.Create(promotion);
         }
 
@@ -77,7 +78,7 @@ namespace GroceryCo.Kiosk.Features.Administration
             if (discount > 1)
                 discount = discount/100;
 
-            Promotion promotion = CreatePromotion(groceryItem, PromotionType.AdditionalProduct, requiredItems, discount);
+            Promotion promotion = PromotionFactory.CreatePromotion(groceryItem, PromotionType.AdditionalProduct, requiredItems, discount);
             _repository.Create(promotion);
         }
 
@@ -112,25 +113,6 @@ namespace GroceryCo.Kiosk.Features.Administration
             return true;
         }
 
-        public static Promotion CreatePromotion(GroceryItem groceryItem, PromotionType type, int requiredItems,
-            decimal salePrice)
-        {
-            Promotion promotion = new Promotion(groceryItem.Name, type, requiredItems);
-
-            promotion.Discount = groceryItem.Price == decimal.Zero
-                ? promotion.Discount = 0
-                : promotion.Discount = (double)(salePrice / groceryItem.Price);
-            
-            return promotion;
-        }
-
-        public static Promotion CreatePromotion(GroceryItem groceryItem, PromotionType type, int requiredItems,
-            double discount)
-        {
-            Promotion promotion = new Promotion(groceryItem.Name, type, requiredItems);
-            promotion.Discount = discount;
-
-            return promotion;
-        }
+        
     }
 }
