@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using GroceryCo.Kiosk.Features.Cashier;
@@ -95,13 +96,14 @@ namespace GroceryCo.Kiosk.UnitTests.Features.Cashier
             }
         }
 
+        // TODO: These tests are shockingly big and need to be refactored.
         [Test]
         public void applying_on_sale_promo_sets_sale_price_for_all_applicable_items_in_purchase()
         {
-            List<Promotion> promotions = new List<Promotion>();
-
             const decimal appleSalePrice = 0.50m;
-            const decimal orangeSalePrice = 0.60m;
+            const decimal orangeSalePrice = 0.25m;
+
+            List<Promotion> promotions = new List<Promotion>();
 
             promotions.Add(PromotionFactory.CreatePromotion(
                 GetTestGroceryItem("apple"), PromotionType.OnSale, 0, appleSalePrice));
@@ -109,12 +111,13 @@ namespace GroceryCo.Kiosk.UnitTests.Features.Cashier
                 GetTestGroceryItem("orange"), PromotionType.OnSale, 0, orangeSalePrice));
 
             Purchase purchase = new Purchase(OnSalePromomoSampleBasket);
-
             purchase.ApplyManyPromotions(promotions);
 
             IEnumerable<PurchaseItem> apples = purchase.PurchaseItems.Where(pi => pi.GroceryItemName == "apple");
-
             Assert.That(apples.All(a => a.DiscountedPrice == appleSalePrice));
+
+            IEnumerable<PurchaseItem> oranges = purchase.PurchaseItems.Where(pi => pi.GroceryItemName == "orange");
+            Assert.That(oranges.All(a => a.DiscountedPrice == orangeSalePrice));
         }
 
         #region Group Promo Tests
@@ -122,31 +125,94 @@ namespace GroceryCo.Kiosk.UnitTests.Features.Cashier
         [Test]
         public void group_promo_sets_sale_price_for_a_set_of_required_items()
         {
-            throw new NotImplementedException();
+            const decimal appleSalePrice = 0.50m;
+            const decimal bananaSalePrice = 0.44m;
+            const decimal orangeSalePrice = 0.60m;
+
+            int appleItemsRequired = 1;
+            int bananaItemsRequired = 2;
+            int orangeItemsRequired = 3;
+
+            List<Promotion> promotions = new List<Promotion>();
+
+            promotions.Add(PromotionFactory.CreatePromotion(
+                GetTestGroceryItem("apple"), PromotionType.Group, appleItemsRequired, appleSalePrice));
+            promotions.Add(PromotionFactory.CreatePromotion(
+                GetTestGroceryItem("banana"), PromotionType.Group, bananaItemsRequired, bananaSalePrice));
+            promotions.Add(PromotionFactory.CreatePromotion(
+                GetTestGroceryItem("orange"), PromotionType.Group, orangeItemsRequired, orangeSalePrice));
+
+            Purchase purchase = new Purchase(GroupPromoSampleBasket);
+            purchase.ApplyManyPromotions(promotions);
+
+            IEnumerable<PurchaseItem> discountedApples =
+                purchase.PurchaseItems.Where(pi => pi.GroceryItemName == "apple" && pi.DiscountedPrice == appleSalePrice);
+            Assert.AreEqual(2, discountedApples.Count());
+
+            IEnumerable<PurchaseItem> discountedBananas =
+                purchase.PurchaseItems.Where(pi => pi.GroceryItemName == "banana" && pi.DiscountedPrice == bananaSalePrice);
+            Assert.AreEqual(2, discountedBananas.Count());
+
+            IEnumerable<PurchaseItem> discountedOranges =
+                purchase.PurchaseItems.Where(pi => pi.GroceryItemName == "orange" && pi.DiscountedPrice == orangeSalePrice);
+            Assert.AreEqual(3, discountedOranges.Count());
         }
 
-        [Test]
-        public void group_promo_sets_sale_price_for_a_number_of_items_equal_to_multiple_of_required_items()
-        {
-            throw new NotImplementedException();
-        }
+        //TODO
+        //[Test]
+        //public void group_promo_sets_sale_price_for_a_number_of_items_equal_to_multiple_of_required_items()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         #endregion
 
         #region AdditionalItem Promo Tests
 
         [Test]
-        public void additional_item_promo_sets_sale_price_for_the_next_item_of_that_type()
+        public void additional_product_promo_sets_sale_price_for_the_next_item_of_that_type()
         {
-            throw new NotImplementedException();
+            const decimal appleSalePrice = 0.50m;
+            const decimal bananaSalePrice = 0.44m;
+            const decimal orangeSalePrice = 0.60m;
+
+            int appleItemsRequired = 1;
+            int bananaItemsRequired = 2;
+            int orangeItemsRequired = 3;
+
+            List<Promotion> promotions = new List<Promotion>();
+
+            promotions.Add(PromotionFactory.CreatePromotion(
+                GetTestGroceryItem("apple"), PromotionType.AdditionalProduct, appleItemsRequired, appleSalePrice));
+            promotions.Add(PromotionFactory.CreatePromotion(
+                GetTestGroceryItem("banana"), PromotionType.AdditionalProduct, bananaItemsRequired, bananaSalePrice));
+            promotions.Add(PromotionFactory.CreatePromotion(
+                GetTestGroceryItem("orange"), PromotionType.AdditionalProduct, orangeItemsRequired, orangeSalePrice));
+
+            Purchase purchase = new Purchase(AdditionalItemPromoSampleBasket);
+            purchase.ApplyManyPromotions(promotions);
+
+            IEnumerable<PurchaseItem> discountedApples =
+                purchase.PurchaseItems.Where(pi => pi.GroceryItemName == "apple" && pi.DiscountedPrice == appleSalePrice);
+            Assert.AreEqual(1, discountedApples.Count());
+
+            IEnumerable<PurchaseItem> discountedBananas =
+                purchase.PurchaseItems.Where(pi => pi.GroceryItemName == "banana" && pi.DiscountedPrice == bananaSalePrice);
+            Assert.AreEqual(1, discountedBananas.Count());
+
+            IEnumerable<PurchaseItem> discountedOranges =
+                purchase.PurchaseItems.Where(pi => pi.GroceryItemName == "orange" && pi.DiscountedPrice == orangeSalePrice);
+            Assert.AreEqual(2, discountedOranges.Count());
         }
 
-        [Test]
-        public void additional_item_promo_sets_sale_price_for_a_number_of_items_equal_to_multiple_of_required_items_plus_one()
-        {
-            throw new NotImplementedException();
+
+        // TODO
+        //[Test]
+        //public void additional_item_promo_sets_sale_price_for_a_number_of_items_equal_to_multiple_of_required_items_plus_one()
+        //{
+        //    throw new NotImplementedException();
             
-        }
+        //}
 
         #endregion
     }

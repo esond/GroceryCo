@@ -55,14 +55,43 @@ namespace GroceryCo.Kiosk.Features.Cashier
             }
         }
 
-        private void ApplyAdditionalProductPromotion(Promotion promotion)
-        {
-            throw new NotImplementedException();
-        }
-
         private void ApplyGroupPromotion(Promotion promotion)
         {
-            throw new NotImplementedException();
+            IEnumerable<PurchaseItem> applicableItems =
+                PurchaseItems.Where(pi => pi.GroceryItemName == promotion.GroceryItemName).ToList();
+
+            for (int i = 0; i < applicableItems.Count(); i += promotion.RequiredItems)
+            {
+                IEnumerable<PurchaseItem> group = applicableItems.Skip(i).Take(promotion.RequiredItems).ToList();
+
+                if (group.Count() != promotion.RequiredItems) continue;
+
+                foreach (PurchaseItem item in group)
+                {
+                    double discountedPrice = (double)item.DiscountedPrice * promotion.Discount;
+
+                    item.DiscountedPrice = Convert.ToDecimal(discountedPrice);
+                }
+            }
+        }
+
+        private void ApplyAdditionalProductPromotion(Promotion promotion)
+        {
+            IEnumerable<PurchaseItem> applicableItems =
+                PurchaseItems.Where(pi => pi.GroceryItemName == promotion.GroceryItemName).ToList();
+
+            for (int i = 0; i < applicableItems.Count(); i += promotion.RequiredItems + 1)
+            {
+                IEnumerable<PurchaseItem> group = applicableItems.Skip(i).Take(promotion.RequiredItems + 1).ToList();
+
+                if (group.Count() != promotion.RequiredItems + 1) continue;
+
+                PurchaseItem item = group.Last();
+
+                double discountedPrice = (double) item.DiscountedPrice * promotion.Discount;
+
+                item.DiscountedPrice = Convert.ToDecimal(discountedPrice);
+            }
         }
     }
 }
