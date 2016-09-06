@@ -76,6 +76,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\..\data\GroceryItem.json">
+      <Link>GroceryItem.json</Link>
+    </None>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
