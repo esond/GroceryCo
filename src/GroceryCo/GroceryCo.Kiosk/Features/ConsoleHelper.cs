@@ -28,7 +28,7 @@ namespace GroceryCo.Kiosk.Features
 
                 int selection;
 
-                if (int.TryParse(input, out selection) && (selection < items.Length))
+                if (int.TryParse(input, out selection) && (selection <= items.Length))
                     return items[selection - 1];
 
                 Console.WriteLine($"Selection {input} is not valid.");

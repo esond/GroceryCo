@@ -52,8 +52,6 @@ namespace GroceryCo.Kiosk.Features.Administration
         {
             IEnumerable<GroceryItem> groceryItems = _repository.GetAll<GroceryItem>().ToList();
 
-            Console.WriteLine("Select the item to end promotions for:");
-
             GroceryItem selectedItem = ConsoleHelper.SelectFrom(groceryItems, "Select the item to end promotions for:");
 
             Promotion toRemove = _repository.GetAll<Promotion>().SingleOrDefault(p => p.GroceryItemName == selectedItem.Name);
