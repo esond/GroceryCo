@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using GroceryCo.Kiosk.Infrastructure;
 
 namespace GroceryCo.Kiosk.Features.Cashier
 {

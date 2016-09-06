@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Text;
 
-namespace GroceryCo.Kiosk.Features.Cashier
+namespace GroceryCo.Kiosk.Infrastructure
 {
     /// <summary>
     /// This class is not original code. It was copied from a stackoverflow answer (linked). Apparently
