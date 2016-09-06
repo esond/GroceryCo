@@ -34,5 +34,56 @@ namespace GroceryCo.Kiosk.Features
                 Console.WriteLine($"Selection {input} is not valid.");
             }
         }
+
+        public static int GetInt(string prompt)
+        {
+            Console.Write(prompt);
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+
+                int result;
+
+                if (int.TryParse(input, out result))
+                    return result;
+
+                Console.WriteLine($"{input} is not valid.");
+            }
+        }
+
+        public static decimal GetDecimal(string prompt = null)
+        {
+            Console.Write(prompt);
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+
+                decimal result;
+
+                if (decimal.TryParse(input, out result))
+                    return result;
+
+                Console.WriteLine($"{input} is not valid.");
+            }
+        }
+
+        public static double GetDouble(string prompt = null)
+        {
+            Console.Write(prompt);
+
+            while (true)
+            {
+                string input = Console.ReadLine();
+
+                double result;
+
+                if (double.TryParse(input, out result))
+                    return result;
+
+                Console.WriteLine($"{input} is not valid.");
+            }
+        }
     }
 }

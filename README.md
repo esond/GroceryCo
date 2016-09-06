@@ -21,8 +21,6 @@ I also used a code snippet from a stackoverflow answer to generate tabular text 
 
   - "Basket" files (containing an unsorted list of item names) are assumed to be comma-separated .txt files. Sample files have been included in /data/baskets.
 
-  - Perhaps the most egregious assumption of all is the assumption that all user input is valid. If time permits, input validation should be added to this project.
-
 ###Notable Decisions
 
 #####Behavioral Decisions

@@ -66,9 +66,7 @@ namespace GroceryCo.Kiosk.Features.Administration
         private void AddAdditionalProductPromotion(GroceryItem groceryItem)
         {
             int requiredItems = GetRequiredItems();
-
-            Console.Write("Enter the discount (%) for this promotion:");
-            double discount = double.Parse(Console.ReadLine());
+            double discount = ConsoleHelper.GetDouble("Enter the discount (%) for this promotion:");
 
             if (discount > 1)
                 discount = discount/100;
@@ -86,16 +84,14 @@ namespace GroceryCo.Kiosk.Features.Administration
             return ConsoleHelper.SelectFrom(items);
         }
 
-        private decimal GetSalePrice()
-        {
-            Console.Write("Enter the sale price (0.00):");
-            return decimal.Parse(Console.ReadLine());
-        }
-
         private int GetRequiredItems()
         {
-            Console.Write("Enter the number of items required for eligibility:");
-            return int.Parse(Console.ReadLine());
+            return ConsoleHelper.GetInt("Enter the number of items required for eligibility:");
+        }
+
+        private decimal GetSalePrice()
+        {
+            return ConsoleHelper.GetDecimal("Enter the sale price (0.00):");
         }
 
         private bool GroceryItemHasExistingPromotions(string groceryItemName)
@@ -106,7 +102,5 @@ namespace GroceryCo.Kiosk.Features.Administration
             Console.WriteLine("There is already a promotion running for this item.");
             return true;
         }
-
-        
     }
 }
