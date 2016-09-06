@@ -25,14 +25,9 @@ namespace GroceryCo.Kiosk.Features.Administration
 
             Console.WriteLine("Select the type of promotion you want to create...");
 
-            Dictionary<int, string> promotionTypes =
-                Enum.GetValues(typeof(PromotionType))
-                    .Cast<PromotionType>()
-                    .ToDictionary(type => (int)type, type => type.ToString());
-
-            int promotionTypeCode = ConsoleHelper.SelectIndexFromStringArray(promotionTypes.Values.ToArray()) + 1;
-
-            switch ((PromotionType)promotionTypeCode)
+            PromotionType type = ConsoleHelper.SelectFrom(Enum.GetValues(typeof(PromotionType)).Cast<PromotionType>());
+            
+            switch (type)
             {
                 case PromotionType.OnSale:
                     AddOnSalePromotion(toPromote);
@@ -87,9 +82,8 @@ namespace GroceryCo.Kiosk.Features.Administration
             Console.WriteLine("Select the item for this promotion:");
 
             IEnumerable<GroceryItem> items = _repository.GetAll<GroceryItem>().ToList();
-            int itemIndex = ConsoleHelper.SelectIndexFromStringArray(items.Select(i => i.Name).ToArray());
 
-            return items.ElementAt(itemIndex);
+            return ConsoleHelper.SelectFrom(items);
         }
 
         private decimal GetSalePrice()
