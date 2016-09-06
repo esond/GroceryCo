@@ -5,7 +5,7 @@ A console-based checkout system for customers of GroceryCo supermarkets.
   - NUnit 3.4.1 for unit testing (http://www.nunit.org/)
   - Json.NET for serialization (http://www.newtonsoft.com/json)
   
-The above packages are all available on NuGet.
+The above packages are all available on NuGet. All projects in this application employ version 4.6.1 of the .NET framework.
 
 I also used a code snippet from a stackoverflow answer to generate tabular text on reciepts. http://stackoverflow.com/a/19353995/1672990
 

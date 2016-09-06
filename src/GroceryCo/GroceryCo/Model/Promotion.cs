@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace GroceryCo.Model
+﻿namespace GroceryCo.Model
 {
     public class Promotion : Entity
     {
